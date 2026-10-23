@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#ff5a17">
+  <title>雅思词汇真经 · 单词卡</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%23ff5a17'/%3E%3Ctext x='13' y='30' font-family='Arial' font-style='italic' font-weight='900' font-size='29'%3EI%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css?v=proofread-20261023">
+  <script src="book-data.js?v=proofread-20261023" defer></script>
+  <script src="app.js?v=proofread-20261023" defer></script>
+</head>
+<body>
+  <svg class="svg-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 5v15m0-15C8 2 3 3 3 3v15s5-1 9 2c4-3 9-2 9-2V3s-5-1-9 2Z"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 5v9m0 4v.1"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4m-5 5 5-5 5 5M4 16v5h16v-5"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M6 18C-1 8 9 3 21 3c0 12-5 22-15 15Zm0 0L17 7M6 18l-3 3"/></symbol>
+  </defs></svg>
+  <div class="app-shell">
+    <aside class="chapter-sidebar" id="chapter-sidebar" aria-label="章节导航">
+      <a href="#" class="brand" id="home-link"><span class="brand-mark">I<span>.</span></span><span><strong>雅思词汇真经</strong><small>VOCABULARY FOR IELTS</small></span></a>
+      <div class="book-caption"><span class="tiny-dot"></span>刘洪波 · 原书词汇卡</div>
+      <div class="nav-heading"><span>学习目录</span><span>22 CHAPTERS</span></div>
+      <button class="all-chapters nav-item" id="all-words"><svg class="icon"><use href="#i-book"/></svg><span>全书单词</span><b id="book-total">3,674</b></button>
+      <nav id="chapters" class="chapter-list"></nav>
+      <div class="sidebar-bottom"><div class="book-progress"><span>全书掌握</span><strong id="total-progress-label">0 / 3,674</strong></div><div class="progress-track"><span id="total-progress-bar"></span></div><div class="backup-actions"><button id="export-progress"><svg class="icon"><use href="#i-download"/></svg>导出进度</button><button id="import-progress"><svg class="icon"><use href="#i-upload"/></svg>导入进度</button></div><button class="storage-note" id="show-help"><span class="online-dot"></span>本地保存 · 使用说明 <span>↗</span></button></div>
+    </aside>
+    <div class="workspace">
+      <header class="topbar"><div class="topbar-left"><button class="icon-button mobile-menu" id="menu-toggle" aria-label="打开章节目录" aria-expanded="false"><svg class="icon"><use href="#i-menu"/></svg></button><span class="workspace-label">我的学习空间</span><span class="topbar-divider"></span><span id="today-date"></span></div><div class="topbar-right"><button id="notebook-toggle" class="mobile-notebook icon-button" aria-label="打开生词本" aria-expanded="false"><svg class="icon"><use href="#i-book"/></svg></button><div class="today-counter" title="每次查看解释计入今日已背；同一词条每天只计一次。"><span class="counter-icon"><svg class="icon"><use href="#i-check"/></svg></span><div><small>今日已背</small><strong id="today-count">0</strong><span class="counter-unit">词</span></div></div></div></header>
+      <div class="study-layout">
+        <main class="study-main" id="main">
+          <section class="chapter-hero"><div class="hero-top"><span id="chapter-eyebrow">CHAPTER 01</span><span class="hero-badge">按原书顺序学习</span></div><div class="hero-content"><div><h1 id="chapter-title">自然地理</h1><p>一群一群记单词，把词汇记得更牢。</p></div><span class="hero-letters" aria-hidden="true">IELTS</span></div><div class="hero-footer"><span><b id="chapter-total">0</b> 个词条</span><span class="hero-progress-label">已掌握 <b id="chapter-mastered">0</b></span><div class="hero-progress"><span id="chapter-progress"></span></div><b id="chapter-percent">0%</b></div></section>
+          <div class="study-intro"><div class="card-legend"><span><i class="legend-check">✓</i>已掌握</span><span><i class="legend-alert">!</i>加入生词本</span></div></div>
+          <div class="study-toolbar"><div class="filter-tabs" role="group" aria-label="筛选词卡"><button data-filter="all" class="active" aria-pressed="true">全部</button><button data-filter="unmastered" aria-pressed="false">未掌握</button><button data-filter="mastered" aria-pressed="false">已掌握</button></div><label class="search-field"><svg class="icon"><use href="#i-search"/></svg><input id="word-search" type="search" placeholder="搜索当前章节…" aria-label="搜索单词" autocomplete="off"></label></div>
+          <div class="results-bar"><span id="results-label"></span><button id="collapse-all">收起全部解释 <span>↑</span></button></div>
+          <div id="cards" class="cards-grid" aria-label="单词卡片"></div>
+          <div id="empty-results" class="empty-results" hidden><svg class="icon"><use href="#i-search"/></svg><h3>这里暂时没有词卡</h3><p id="empty-message">试试其他单词，或切换筛选条件。</p><button id="clear-filters" class="outline-button">查看全部词卡</button></div>
+          <nav class="pagination" aria-label="词卡分页"><button id="previous-page" class="page-button">← 上一页</button><div><label for="page-select">第</label> <select id="page-select" aria-label="跳转页码"></select> <span id="page-total"></span></div><button id="next-page" class="page-button">下一页 →</button></nav>
+          <footer class="main-footer"><span>雅思词汇真经 <i>·</i> 每天一点，慢慢积累。</span><span>释义、例句与插图均取自原书</span></footer>
+        </main>
+        <aside class="notebook" id="notebook" aria-label="我的生词本"><div class="notebook-sticky"><div class="notebook-heading"><div><span class="notebook-kicker">MY WORDBOOK</span><h2>我的生词本 <span id="notebook-count">0</span></h2></div><svg class="icon notebook-symbol"><use href="#i-book"/></svg></div><p class="notebook-description">把不熟悉的词，留给下一次进步。</p><label class="search-field notebook-search"><svg class="icon"><use href="#i-search"/></svg><input id="notebook-search" type="search" placeholder="在生词本中查找" aria-label="搜索生词本" autocomplete="off"></label><div id="notebook-list" class="notebook-list"></div><div id="notebook-empty" class="notebook-empty"><div class="empty-book"><svg class="icon"><use href="#i-book"/></svg><span>!</span></div><h3>收集还没记住的词</h3><p>点击词卡右上角的 <b>!</b><br>单词就会出现在这里。</p></div><button id="review-notebook" class="review-button" disabled>复习生词本 <svg class="icon"><use href="#i-arrow"/></svg></button><div class="notebook-tip"><span>学习小提示</span><p>先试着回忆单词的意思，<br>再打开解释核对。</p></div><div class="source-book"><img src="assets/cover.webp" alt="雅思词汇真经原书封面" width="37" height="53"><div><strong>雅思词汇真经</strong><small>刘洪波 编著<br>原书内容 · 离线学习</small></div></div></div></aside>
+      </div>
+    </div>
+  </div>
+  <div id="drawer-backdrop" class="drawer-backdrop" hidden></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <dialog id="word-dialog" class="word-dialog"><div class="dialog-top"><span>生词复习</span><button class="icon-button" data-close="word-dialog" aria-label="关闭词卡"><svg class="icon"><use href="#i-close"/></svg></button></div><div id="dialog-card"></div></dialog>
+  <dialog id="help-dialog" class="help-dialog"><div class="dialog-top"><h2>你的离线单词本</h2><button class="icon-button" data-close="help-dialog" aria-label="关闭说明"><svg class="icon"><use href="#i-close"/></svg></button></div><div class="help-content"><p>左侧选章节，先看英文单词，再点击「查看解释」。原书的音标、释义、例句、搭配、记忆解释与插图会完整展开；跨栏、跨页内容已按阅读顺序接续。</p><p><b>✓ 已掌握：</b>再次点击可取消；标记掌握后会从生词本移出。<br><b>! 生词本：</b>再次点击可移出；加入后会取消该词的掌握标记。</p><p><b>今日已背：</b>当天查看过解释的词条数，每个词条每天计一次。按本机日期更新；不同章节的同名单词分别记录。</p><p><b>本地保存：</b>学习记录只保存在当前浏览器中。请在固定浏览器中打开这个文件；清除浏览器数据、更换浏览器或移动文件后，请用「导入进度」恢复备份。</p><p><b>备份进度：</b>「导出进度」会下载一个 JSON 文件；「导入进度」合并学习记录，同一单词的状态以备份为准。建议定期导出。</p><p class="help-source">文字版支持选中复制，也可点击「复制文字」复制整条。需要核对时展开「对照原书」，或点击「查看原书」打开对应 PDF 页。</p></div></dialog>
+  <input type="file" id="import-file" accept="application/json,.json" hidden>
+  <noscript>请在浏览器中启用 JavaScript，以使用词卡和本地学习记录。</noscript>
+</body>
+</html>

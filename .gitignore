@@ -1,0 +1,23 @@
+# Local OCR runtimes, intermediate material, caches and test output
+/tmp/
+__pycache__/
+*.pyc
+node_modules/
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.env
+.env.*
+*.log
+
+# The identical original PDF is distributed as a lossless ZIP below 100 MiB.
+/*.pdf
+
+# Personal study backups must remain local.
+*学习进度*.json
+*progress-backup*.json
+
+# Extraction workbench depends on local OCR caches; publish the standalone check.
+/scripts/*
+!/scripts/verify_proofread_book.cjs
