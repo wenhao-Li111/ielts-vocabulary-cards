@@ -84,6 +84,8 @@ tests/                      提醒计时与暂停等行为测试
 
 Windows 开发使用 Node.js 24：`npm ci`，`npm start`。运行 `npm test` 检查提醒逻辑、3,674 条正文渲染和图片完整性；`npm run build:windows` 生成安装程序。`npm run build:pages` 生成 `pages-site/`。
 
+`npm run test:desktop` 会使用独立的临时资料目录，启动桌面版检查真实窗口、提醒展开、跳转和进度保存；结果写入 `tmp/desktop-smoke-result.json`，不会修改日常学习记录。
+
 APK 构建需要 JDK 21、Android SDK Platform 35 和 Build Tools 35.0.0，执行：
 
 ```powershell

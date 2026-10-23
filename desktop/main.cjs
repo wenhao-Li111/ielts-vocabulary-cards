@@ -8,8 +8,9 @@ const {cleanSettings, ReminderClock} = require('./reminder-clock.cjs');
 const TITLE = '《雅思词汇真经》· Liu Hongbo 单词卡';
 const ROOT = path.join(__dirname, '..');
 const ORIGIN = 'ielts://app';
+const smokeTest = !app.isPackaged && process.argv.includes('--smoke-test');
 app.setName('IELTSVocabularyCards');
-app.setPath('userData', path.join(app.getPath('appData'), 'IELTSVocabularyCards'));
+app.setPath('userData', smokeTest ? fs.mkdtempSync(path.join(app.getPath('temp'), 'ielts-cards-test-')) : !app.isPackaged && process.env.IELTS_TEST_PROFILE ? path.resolve(process.env.IELTS_TEST_PROFILE) : path.join(app.getPath('appData'), 'IELTSVocabularyCards'));
 app.setAppUserModelId('com.wenhaoli.ieltscards');
 protocol.registerSchemesAsPrivileged([{scheme:'ielts', privileges:{standard:true, secure:true, supportFetchAPI:true}}]);
 const locked = app.requestSingleInstanceLock();
@@ -119,4 +120,14 @@ if (locked) app.whenReady().then(async () => {
   timer = setInterval(() => { if (clock.tick(Date.now(), !!reminderWindow)) showReminder(); }, 1000);
   powerMonitor.on('resume', () => { if (clock.tick(Date.now(), !!reminderWindow)) showReminder(); });
   if (process.argv.includes('--reminder')) showReminder();
-}).catch(error => { dialog.showErrorBox(TITLE, '启动失败：' + error.message); quitting=true; app.quit(); });
+  if (smokeTest) {
+    await require('../tests/desktop-smoke.cjs')({app,mainWindow,getReminder:()=>reminderWindow,clock,showMain,settingsPath,root:ROOT});
+    quitting=true; app.quit();
+  }
+}).catch(error => {
+  if (smokeTest) {
+    fs.mkdirSync(path.join(ROOT,'tmp'),{recursive:true});
+    fs.writeFileSync(path.join(ROOT,'tmp/desktop-smoke-result.json'),JSON.stringify({passed:false,error:error.stack},null,2));
+    quitting=true; app.exit(1);
+  } else { dialog.showErrorBox(TITLE, '启动失败：' + error.message); quitting=true; app.quit(); }
+});

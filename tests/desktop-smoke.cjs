@@ -1,0 +1,45 @@
+// Exercise our Electron application in an isolated development profile.
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+async function until(check,label) { for(let i=0;i<80;i++) { if(await check()) return; await delay(100); } throw new Error('Timed out: '+label); }
+module.exports=async ({mainWindow,getReminder,clock,showMain,settingsPath,root}) => {
+  const results=[];
+  const main=code=>mainWindow.webContents.executeJavaScript(code);
+  await until(async()=>!mainWindow.webContents.isLoading(),'main load');
+  assert.equal(await main('window.BOOK_DATA.entries.length'),3674);results.push('all 3674 words load through the secure local protocol');
+  await main("localStorage.removeItem('ielts-zhenjing-local-v1'); location.reload();");
+  await until(async()=>!mainWindow.webContents.isLoading() && await main("!!document.getElementById('today-count')"),'reload');
+  const settings=await main('window.desktopAPI.getSettings()');
+  assert.equal(settings.intervalMinutes,30);assert.equal(settings.enabled,true);results.push('preload IPC returns the 30-minute enabled default');
+  clock.nextAt=Date.now()-1;
+  await until(()=>!!getReminder(),'scheduled reminder');
+  const reminder=getReminder(), read=code=>reminder.webContents.executeJavaScript(code);
+  await until(()=>!reminder.webContents.isLoading(),'reminder load');
+  const id=await read("new URLSearchParams(location.search).get('word')");
+  assert.equal(await read("document.getElementById('explanation').hidden"),true);
+  assert.equal(await read("document.getElementById('explanation').innerHTML"),'');
+  assert.equal(reminder.isAlwaysOnTop(),true);results.push('timer opens one always-on-top word-only reminder');
+  await read("document.getElementById('reveal').click()");
+  await until(()=>reminder.getBounds().height>400,'expand IPC');
+  assert.equal(await read("document.getElementById('explanation').hidden"),false);
+  assert((await read("document.getElementById('explanation').innerText")).length>5);results.push('click reveals real book content and expands the native window');
+  await until(async()=>Number(await main("document.getElementById('today-count').textContent"))===1,'shared review count');
+  await read("document.getElementById('reveal').click();document.getElementById('reveal').click()");
+  assert.equal(Number(await main("document.getElementById('today-count').textContent")),1);results.push('reminder and main window share progress; repeat reveal counts once');
+  clock.nextAt=Date.now()-1;await delay(2200);
+  assert.equal(getReminder(),reminder);assert.equal(await read("new URLSearchParams(location.search).get('word')"),id);results.push('later timer ticks do not replace or dismiss the existing card');
+  await read("document.getElementById('open-app').click()");
+  await until(async()=>await main("document.querySelector('.selected-word')?.dataset.entry")===id,'open matching word');
+  assert.equal(mainWindow.isVisible(),true);assert.equal(getReminder(),reminder);results.push('open-in-app focuses and highlights the same word, retaining the reminder');
+  await main("document.querySelector('.selected-word [data-action=unfamiliar]').click()");
+  assert.equal(await main(`JSON.parse(localStorage.getItem('ielts-zhenjing-local-v1')).statuses[${JSON.stringify(id)}]`),'unfamiliar');
+  mainWindow.webContents.reload();await until(()=>!mainWindow.webContents.isLoading(),'persistent reload');
+  assert.equal(await main(`JSON.parse(localStorage.getItem('ielts-zhenjing-local-v1')).statuses[${JSON.stringify(id)}]`),'unfamiliar');results.push('study status persists after reload');
+  await main("window.desktopAPI.saveSettings({enabled:false,intervalMinutes:60,launchAtLogin:false})");
+  assert.equal(JSON.parse(fs.readFileSync(settingsPath)).enabled,false);assert.equal(clock.settings.intervalMinutes,60);results.push('pause and interval changes persist to local settings');
+  await read("document.getElementById('dismiss').click()");await until(()=>!getReminder(),'manual dismiss');results.push('manual close dismisses the card');
+  mainWindow.close();assert.equal(mainWindow.isDestroyed(),false);assert.equal(mainWindow.isVisible(),false);showMain();results.push('closing the main window hides it without exiting the tray process');
+  const output=path.join(root,'tmp');fs.mkdirSync(output,{recursive:true});
+  fs.writeFileSync(path.join(output,'desktop-smoke-result.json'),JSON.stringify({passed:true,checks:results},null,2));
+  console.log(JSON.stringify({passed:true,checks:results.length}));
+};
