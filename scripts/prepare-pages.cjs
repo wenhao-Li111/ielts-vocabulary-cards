@@ -1,0 +1,14 @@
+const fs = require('node:fs');
+const path = require('node:path');
+const crypto = require('node:crypto');
+const root = path.resolve(__dirname,'..');
+const output = path.join(root,'pages-site');
+fs.mkdirSync(output,{recursive:true});
+fs.cpSync(path.join(root,'dist'),output,{recursive:true});
+const digest = crypto.createHash('sha256');
+for (const file of ['app.js','book-data.js','entry-renderer.js','index.html','styles.css','desktop-settings.js','web-install.js','service-worker.js']) digest.update(fs.readFileSync(path.join(root,'dist',file)));
+const revision = digest.digest('hex').slice(0,16);
+const sw = path.join(output,'service-worker.js');
+fs.writeFileSync(sw,fs.readFileSync(sw,'utf8').replace('__BUILD_VERSION__',revision));
+fs.writeFileSync(path.join(output,'.nojekyll'),'');
+console.log(`Pages site prepared: ${revision}`);

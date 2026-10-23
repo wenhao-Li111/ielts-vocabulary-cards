@@ -106,7 +106,7 @@
     $('chapter-eyebrow').textContent = scope === 'chapter' ? `CHAPTER ${String(chapter.id).padStart(2,'0')}` : scope === 'all' ? 'THE COMPLETE VOCABULARY' : 'MY PERSONAL WORDBOOK';
     $('chapter-title').textContent = scope === 'chapter' ? chapter.title : scope === 'all' ? '全书单词' : '复习生词本';
     $('word-search').placeholder = scope === 'chapter' ? '搜索当前章节…' : scope === 'all' ? '搜索全书单词…' : '搜索生词…';
-    document.title = `${$('chapter-title').textContent} · 雅思词汇真经`;
+    document.title = `${$('chapter-title').textContent} · 《雅思词汇真经》· Liu Hongbo 单词卡`;
   }
   function pagesLabel(entry) { return entry.pages.map(p => String(p).padStart(3,'0')).join('、'); }
   function originalScans(entry) {
@@ -121,39 +121,13 @@
     }).join('');
     return `<div class="original-parts">${parts}</div>`;
   }
-  function bookText(text, entry) {
-    const needle = entry.word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const pattern = new RegExp(`\\b(${needle})\\b`, 'gi');
-    return text.split(pattern).map((part, index) => index % 2 ? `<strong lang="en">${escape(part)}</strong>` : escape(part)).join('');
-  }
-  function phoneticText(text) {
-    // The original book prints these two alternative weak vowels vertically.
-    // Both characters remain selectable text, including when copied.
-    return escape(text).replaceAll('ᶦₔ', '<span class="ipa-alternative"><span>ᶦ</span><span>ₔ</span></span>');
-  }
-  function textBlock(block, entry) {
-    if (block.type === 'illustration') return `<figure class="book-illustration"><img src="${escape(block.src)}" width="${block.width}" height="${block.height}" loading="lazy" alt="${escape(block.alt || '原书插图')}"></figure>`;
-    const label = block.label ? `<span class="entry-label">[${escape(block.label)}]</span>` : '';
-    if (block.type === 'meaning') {
-      const senses = block.text.split(/(?=\/[^/\s]{1,48}\/\s*(?:n|v|vt|vi|adj|adv|prep)\.)/i).filter(text => text.trim());
-      return `<div class="entry-block entry-meaning">${senses.map(sense => {
-        const phonetic = sense.match(/^\s*(\/[^/]+\/)\s*/);
-        return `<p class="meaning-sense">${phonetic ? `<span class="meaning-phonetic" lang="en">${phoneticText(phonetic[1])}</span>` : ''}${bookText(phonetic ? sense.slice(phonetic[0].length) : sense,entry)}</p>`;
-      }).join('')}</div>`;
-    }
-    if (block.type === 'example') {
-      // Keep the original wording; the translation starts on its own line.
-      const chinese = block.text.search(/[\u3400-\u9fff]/);
-      if (chinese > 0 && /[a-zA-Z]/.test(block.text.slice(0, chinese))) {
-        return `<div class="entry-block entry-example"><p class="example-en" lang="en">${label}${bookText(block.text.slice(0, chinese).trim(), entry)}</p><p class="example-zh" lang="zh-CN">${bookText(block.text.slice(chinese).trim(), entry)}</p></div>`;
-      }
-    }
-    return `<p class="entry-block entry-${escape(block.type)}">${label}${bookText(block.text, entry)}</p>`;
-  }
+  const {bookText, phoneticText, textBlock} = window.EntryRenderer;
   function explanation(entry) {
     const blocks = (entry.content || []).map(block => textBlock(block, entry)).join('');
     const phonetic = entry.phonetic ? `<p class="entry-phonetic" lang="en">${phoneticText(entry.phonetic)}</p>` : '';
-    return `<div class="explanation-inner"><div class="explanation-tools"><span class="original-label">原书内容</span><button class="copy-entry" data-action="copy">复制文字</button></div><div class="entry-text">${phonetic}${blocks}</div><details class="source-comparison"><summary>对照原书</summary>${originalScans(entry)}</details><a class="source-link" href="../${encodeURIComponent(book.sourceFile)}#page=${entry.pdfPage}" target="_blank" rel="noopener">原书第 ${pagesLabel(entry)} 页 · 查看原书 ${icon('arrow')}</a></div>`;
+    const localPdf = location.protocol === 'file:';
+    const sourceUrl = localPdf ? `../${encodeURIComponent(book.sourceFile)}#page=${entry.pdfPage}` : 'https://github.com/wenhao-Li111/ielts-vocabulary-cards/tree/main/%E8%B5%84%E6%96%99';
+    return `<div class="explanation-inner"><div class="explanation-tools"><span class="original-label">原书内容</span><button class="copy-entry" data-action="copy">复制文字</button></div><div class="entry-text">${phonetic}${blocks}</div><details class="source-comparison"><summary>对照原书</summary>${originalScans(entry)}</details><a class="source-link" href="${sourceUrl}" target="_blank" rel="noopener">原书第 ${pagesLabel(entry)} 页 · ${localPdf?'查看原书':'下载整本原书资料'} ${icon('arrow')}</a></div>`;
   }
   async function copyEntry(id) {
     const entry = byId.get(id);
@@ -354,6 +328,10 @@
   $('export-progress').addEventListener('click', () => {
     mergeLatest();
     const backup = {app:'ielts-zhenjing',version:1,exportedAt:new Date().toISOString(),...state};
+    if (window.AndroidBackup?.saveBackup) {
+      window.AndroidBackup.saveBackup(JSON.stringify(backup,null,2), `雅思词汇学习进度-${localDate()}.json`);
+      return;
+    }
     const url = URL.createObjectURL(new Blob([JSON.stringify(backup,null,2)], {type:'application/json'}));
     const link = document.createElement('a'); link.href = url; link.download = `雅思词汇学习进度-${localDate()}.json`;
     document.body.append(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url), 5000);
@@ -380,6 +358,19 @@
   });
   setInterval(() => { if (day !== localDate()) { day=localDate(); renderToday(); } }, 30000);
   document.addEventListener('visibilitychange', () => { if (!document.hidden) { mergeLatest(); stats(); } });
+  function openSpecificWord(id) {
+    const entry = byId.get(id); if (!entry) return;
+    if ($('word-dialog').open) $('word-dialog').close();
+    chooseScope('chapter', entry.chapter);
+    const index = scopeEntries().findIndex(e => e.id === id);
+    state.view.page = Math.floor(index / PAGE_SIZE) + 1;
+    renderCards(); persist();
+    const target = $('cards').querySelector(`[data-entry="${id}"]`);
+    if (target) { target.classList.add('selected-word'); target.setAttribute('tabindex','-1'); target.scrollIntoView({behavior:'auto',block:'center'}); target.focus({preventScroll:true}); }
+  }
+  window.desktopAPI?.onOpenWord(openSpecificWord);
   render();
+  const linkedWord = new URLSearchParams(location.hash.slice(1)).get('word');
+  if (linkedWord) openSpecificWord(linkedWord);
   if (storageProblem) toast('无法读取浏览器记录；你可以导入备份，或先学习再导出进度。');
 })();

@@ -21,3 +21,15 @@ Thumbs.db
 # Extraction workbench depends on local OCR caches; publish the standalone check.
 /scripts/*
 !/scripts/verify_proofread_book.cjs
+!/scripts/prepare-pages.cjs
+!/scripts/build-android.ps1
+!/scripts/prepare-android.cjs
+!/scripts/make-icons.py
+/release/
+/pages-site/
+/android/.gradle/
+/android/**/build/
+/android/local.properties
+*.keystore
+*.jks
+/private-signing/

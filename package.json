@@ -1,0 +1,30 @@
+{
+  "name": "ielts-zhenjing-cards",
+  "version": "1.1.0",
+  "description": "《雅思词汇真经》· Liu Hongbo 单词卡，离线学习与常驻桌面提醒",
+  "main": "desktop/main.cjs",
+  "author": "wenhao-Li111",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test tests/*.test.cjs && node scripts/verify_proofread_book.cjs",
+    "build:windows": "electron-builder --win nsis --x64 --publish never",
+    "build:pages": "node scripts/prepare-pages.cjs"
+  },
+  "devDependencies": {"electron": "45.0.0", "electron-builder": "26.15.3"},
+  "build": {
+    "appId": "com.wenhaoli.ieltscards",
+    "productName": "《雅思词汇真经》· Liu Hongbo 单词卡",
+    "directories": {"output": "release", "buildResources": "desktop/icons"},
+    "files": ["desktop/**/*", "dist/**/*", "package.json", "LICENSE", "NOTICE.md"],
+    "asar": true,
+    "win": {"target": [{"target": "nsis", "arch": ["x64"]}], "icon": "desktop/icons/app.ico", "executableName": "IELTS Cards"},
+    "nsis": {
+      "oneClick": true, "perMachine": false, "allowElevation": false,
+      "createDesktopShortcut": true, "createStartMenuShortcut": true,
+      "runAfterFinish": false, "deleteAppDataOnUninstall": false,
+      "artifactName": "IELTS-Cards-Setup-${version}.${ext}"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+.reminder-page{margin:0;background:#fffdf8;color:#242824;border:1px solid #e8d9ca;border-top:4px solid #ff5a17;border-radius:12px;height:100vh;display:flex;flex-direction:column;overflow:hidden;font:14px/1.6 "Segoe UI","Microsoft YaHei",sans-serif}
+.reminder-header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px 0;color:#8b7b6e;font-size:12px;-webkit-app-region:drag}
+.reminder-header button{font-size:24px;border:0;background:none;cursor:pointer;color:#826f63;-webkit-app-region:no-drag;padding:0 6px}
+.reminder-page main{min-height:0;overflow:auto;padding:8px 22px 16px;flex:1}
+.reminder-word{display:block;width:100%;border:0;background:none;cursor:pointer;font:36px/1.25 Georgia,serif;color:#262820;padding:6px 0 18px;overflow-wrap:anywhere}
+.reminder-word:focus-visible,.reminder-page button:focus-visible{outline:2px solid #ff5a17;outline-offset:2px}
+.reminder-actions{display:flex;gap:10px;justify-content:center}.reminder-actions button{border:1px solid #f1c7ac;border-radius:7px;padding:8px 13px;background:#fff2e8;color:#9c4822;cursor:pointer;font-size:13px}.reminder-actions button+button{background:white;border-color:#ddd9d3;color:#68665d}
+#explanation{border-top:1px solid #eae5dc;margin-top:18px;padding-top:8px;text-align:left;user-select:text}.reminder-page .entry-block{font-size:15px}.reminder-page .book-illustration img{max-width:100%;height:auto}
+.reminder-page footer{padding:6px 16px 10px;text-align:center;font-size:11px;color:#a29a8f}.reminder-page .entry-phonetic{margin-bottom:12px}

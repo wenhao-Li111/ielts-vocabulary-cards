@@ -1,7 +1,9 @@
-雅思词汇真经 · 本地单词卡
+《雅思词汇真经》· Liu Hongbo 单词卡
 
-Windows、安卓及 iOS 的完整本地使用步骤见 README.md。
-手机需使用支持 JavaScript、完整文件夹和 localStorage 的浏览器或 HTML 阅读器；尚未完成手机真机测试。
+电脑、安卓、苹果可直接打开网页版：https://wenhao-li111.github.io/ielts-vocabulary-cards/
+Windows EXE、Android APK 的下载链接及完整步骤见 README.md。
+Windows 版默认每 30 分钟显示一张常驻词卡，支持暂停和自定义间隔。关闭主窗口后留在托盘；从托盘退出后停止提醒。
+三个版本分别在本机保存进度，换用新版本请先导出再导入。以下是原文件夹版的使用方法；手机使用网页版或 APK 无需额外阅读器。
 从 GitHub 下载时，请完整解压仓库。需要阅读 PDF 时，将「资料/雅思词汇真经-原书.zip」中的 PDF 解压到本文件夹根目录，并保留原文件名。
 
 使用方法

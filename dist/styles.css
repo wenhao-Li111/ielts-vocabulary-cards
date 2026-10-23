@@ -93,3 +93,8 @@
 .source-comparison .original-parts{padding:8px 0}
 .copy-buffer{position:fixed;left:-10000px;top:0;width:1px;height:1px;font-size:16px}
 @media(pointer:coarse){.copy-entry{min-height:40px}.source-comparison summary{min-height:40px;padding-top:9px}.entry-text{font-size:17px}.entry-meaning{font-size:17px}.entry-example .example-zh,.entry-collocation,.entry-memory,.entry-note{font-size:16px}}
+
+/* Desktop controls share the original warm, quiet palette. */
+.desktop-settings-button{border:1px solid #e3d8cb;background:#fffaf3;border-radius:8px;color:#865b3c;padding:8px 12px;font:inherit;cursor:pointer;white-space:nowrap}
+.setting-row{display:flex;justify-content:space-between;align-items:center;gap:24px;margin:18px 0;font-size:15px}.setting-row input[type=number]{width:90px;padding:8px;border:1px solid #ddd4c9;border-radius:6px}.setting-row input[type=checkbox]{width:19px;height:19px;accent-color:#ff5a17}.reminder-setting-actions{display:flex;gap:12px;align-items:center}.reminder-setting-actions .review-button{margin:0;width:auto;padding:11px 20px}.selected-word{outline:2px solid #ff955e;outline-offset:3px}.reminder-settings{max-width:520px}
+@media(max-width:520px){.desktop-settings-button{font-size:12px;padding:7px}.topbar-right{gap:8px}}
